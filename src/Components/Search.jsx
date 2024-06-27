@@ -1,8 +1,35 @@
 import React from "react";
-const Search = () => {
+import { useState, useEffect } from "react";
+
+const Search = ({ restos, setFilteredRestaurants }) => {
+  const [keyword, setKeyword] = useState("");
+
+  const handleChange = async (e) => {
+    setKeyword(e.target.value);
+    if (e.target.value === "") {
+      setFilteredRestaurants(restos);
+      return;
+    }
+
+    const result = restos.filter((resto) => {
+      return (
+        resto.title.toLowerCase().includes(keyword.toLocaleLowerCase()) ||
+        resto.type.toLowerCase().includes(keyword.toLocaleLowerCase())
+      );
+    });
+    console.log(result);
+    setFilteredRestaurants(result);
+  };
+
   return (
     <label className="input input-bordered flex items-center gap-2 w-5/6">
-      <input type="text" className="grow" placeholder="Search"/>
+      <input
+        type="text"
+        className="grow"
+        placeholder="Search"
+        value={keyword}
+        onChange={handleChange}
+      />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 16 16"
