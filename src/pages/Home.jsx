@@ -7,14 +7,14 @@ import Navbar from "../Components/Narbar";
 
 function Home() {
   const [restos, setRestos] = useState([]);
-  const [FilteredRestaurants, setFilteredRestaurants] = useState([]);
+  const [FilteredRestos, setFilteredRestos] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:5000/restaurants")
       .then((res) => res.json())
       .then((response) => {
         setRestos(response);
-        setFilteredRestaurants(response);
+        setFilteredRestos(response);
       })
       .catch((err) => {
         console.log(err.message);
@@ -25,11 +25,8 @@ function Home() {
       <div className="container flex flex-col items-center p-4 mx-auto space-y-6">
         <Navbar />
         <Header />
-        <Search
-          restos={restos}
-          setFilteredRestaurants={setFilteredRestaurants}
-        />
-        <Restaurant restos={FilteredRestaurants} />
+        <Search restos={restos} setFilteredRestos={setFilteredRestos} />
+        <Restaurant restos={FilteredRestos} />
       </div>
     </>
   );

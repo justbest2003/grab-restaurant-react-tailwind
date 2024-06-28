@@ -1,13 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-const Search = ({ restos, setFilteredRestaurants }) => {
+const Search = ({ restos, setFilteredRestos }) => {
   const [keyword, setKeyword] = useState("");
 
   const handleChange = async (e) => {
     setKeyword(e.target.value);
     if (e.target.value === "") {
-      setFilteredRestaurants(restos);
+      setFilteredRestos(restos);
       return;
     }
 
@@ -18,11 +18,11 @@ const Search = ({ restos, setFilteredRestaurants }) => {
       );
     });
     console.log(result);
-    setFilteredRestaurants(result);
+    setFilteredRestos(result);
   };
 
   return (
-    <label className="input input-bordered flex items-center gap-2 w-5/6">
+    <label className="input input-bordered flex items-center gap-2 w-5/12">
       <input
         type="text"
         className="grow"
