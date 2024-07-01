@@ -4,7 +4,6 @@ import Header from "../Components/Header";
 import Search from "../Components/Search";
 import Restaurant from "../Components/Restaurant";
 import Navbar from "../Components/Narbar";
-import RestaurantList from "../Components/RestaurantList";
 
 function Home() {
   const [restos, setRestos] = useState([]);
