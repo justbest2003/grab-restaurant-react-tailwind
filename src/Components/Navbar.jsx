@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Narbar = () => {
+const Navbar = () => {
   return (
     <div className="navbar bg-base-100 rounded-lg shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]">
       <div className="navbar-start">
@@ -27,39 +27,22 @@ const Narbar = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
-              <Link to="/">Home</Link>
+              <a href="/">Home</a>
             </li>
             <li>
-              <a>Parent</a>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a>Item 3</a>
+              <a href="/add">Add</a>
             </li>
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">Grab Restaurant</a>
+        <a href="/" className="btn btn-ghost text-xl">Grab Restaurant</a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <Link to="/">HOME</Link>
+            <a href="/">HOME</a>
           </li>
           <li>
-            <Link to="/add">ADD</Link>
-          </li>
-          <li>
-            <Link to="/list">LIST - MENU</Link>
-          </li>
-          <li>
-            <Link to="/add">CONTACT</Link>
+            <a href="/add">ADD</a>
           </li>
         </ul>
       </div>
@@ -100,4 +83,4 @@ const Narbar = () => {
   );
 };
 
-export default Narbar;
+export default Navbar;
