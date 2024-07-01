@@ -1,17 +1,24 @@
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const addForm = () => {
+const Form = () => {
   const [food, setFood] = useState({
     title: "",
     type: "",
     img: "https://cms.dmpcdn.com/food/2024/01/19/60acdbd0-b6ae-11ee-be74-a3cdac836376_webp_original.webp",
   });
+  const [idToDelete, setIdToDelete] = useState("");
   const navigate = useNavigate();
+  
   const handleChange = (e) => {
     setFood({ ...food, [e.target.name]: e.target.value });
   };
+  
+  const handleDeleteChange = (e) => {
+    setIdToDelete(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const restos = {
@@ -19,13 +26,27 @@ const addForm = () => {
       type: food.type,
       img: food.img,
     };
-    fetch("http://localhost:5000/restaurants", {
+    fetch("http://localhost:3000/restaurants", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(restos),
     })
       .then((res) => {
-        alert("Add Sucessfully");
+        alert("Added Successfully");
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  const handleDelete = (e) => {
+    e.preventDefault();
+    fetch(`http://localhost:3000/restaurants/${idToDelete}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        alert("Deleted Successfully");
         navigate("/");
       })
       .catch((err) => {
@@ -87,8 +108,28 @@ const addForm = () => {
           </button>
         </div>
       </form>
+      <form className="card-body" onSubmit={handleDelete}>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">ID TO DELETE</span>
+          </label>
+          <input
+            type="text"
+            placeholder="ID to delete"
+            className="input input-bordered"
+            required
+            value={idToDelete}
+            onChange={handleDeleteChange}
+          />
+        </div>
+        <div className="form-control mt-6">
+          <button className="btn btn-danger" type="submit">
+            DELETE
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
 
-export default addForm;
+export default Form;

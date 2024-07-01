@@ -4,13 +4,14 @@ import Header from "../Components/Header";
 import Search from "../Components/Search";
 import Restaurant from "../Components/Restaurant";
 import Navbar from "../Components/Narbar";
+import RestaurantList from "../Components/RestaurantList";
 
 function Home() {
   const [restos, setRestos] = useState([]);
   const [FilteredRestos, setFilteredRestos] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/restaurants")
+    fetch("http://localhost:3000/restaurants")
       .then((res) => res.json())
       .then((response) => {
         setRestos(response);

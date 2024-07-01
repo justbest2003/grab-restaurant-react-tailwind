@@ -56,7 +56,7 @@ const Narbar = () => {
             <Link to="/add">ADD</Link>
           </li>
           <li>
-            <Link to="/add">ABOUT</Link>
+            <Link to="/list">LIST - MENU</Link>
           </li>
           <li>
             <Link to="/add">CONTACT</Link>
