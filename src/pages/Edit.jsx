@@ -1,9 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
-const Add = () => {
+const Edit = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [resto, setRestos] = useState({
     title: "",
     type: "",
@@ -26,24 +28,41 @@ const Add = () => {
     setRestos({ ...resto, [name]: value });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const response = await fetch("http://localhost:3000/restaurants/" + id, {
         method: "PUT",
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(resto),
       });
       if (response.ok) {
-        alert("Restaurant updated successfully!");
+        Swal.fire({
+          icon: 'success',
+          title: 'สำเร็จ!',
+          text: 'แก้ไขข้อมูลร้านอาหารเรียบร้อย!'
+        }).then(() => {
+          navigate('/'); // นำทางกลับไปยังหน้าแรก
+        });
+      } else {
+        throw new Error('Failed to update restaurant');
       }
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: error.message
+      });
     }
   };
 
   return (
     <div className="container flex flex-col items-center p-4 mx-auto space-y-6">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-        <form className="card-body">
+        <form className="card-body" onSubmit={handleSubmit}>
           <div className="form-control">
             <label className="label">
               <span className="label-text">TITLE</span>
@@ -93,9 +112,8 @@ const Add = () => {
             <button
               className="btn btn-primary"
               type="submit"
-              onClick={handleSubmit}
             >
-              ADD
+              UPDATE
             </button>
           </div>
         </form>
@@ -104,4 +122,4 @@ const Add = () => {
   );
 };
 
-export default Add;
+export default Edit;
