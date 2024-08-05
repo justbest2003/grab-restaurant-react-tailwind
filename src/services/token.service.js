@@ -7,7 +7,7 @@ const setUser = (user) => {
   localStorage.setItem("user", JSON.stringify(user)); //เปลี่ยน Json เป็น Text
 };
 
-const getUser = (user) => {
+const getUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
 
