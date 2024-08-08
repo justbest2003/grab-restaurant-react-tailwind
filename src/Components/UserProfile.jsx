@@ -2,13 +2,12 @@ import React from "react";
 import AuthService from "../services/auth.service";
 import { useAuthContext } from "../context/AuthContext";
 
-
 const UserProfile = () => {
-const { logout , remember } = useAuthContext();
+  const { logout } = useAuthContext();
 
-const handleLogout = () =>  {
-  logout();
-};
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <div className="dropdown dropdown-end">

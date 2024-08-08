@@ -7,7 +7,13 @@ import { useAuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
   const { user } = useAuthContext();
-  console.log("user,",user);
+  console.log("user,", user);
+
+  const roleAbbreviations = {
+    ROLES_ADMIN: "ADMIN",
+    ROLES_MODERATOR: "MOD",
+    ROLES_USER: "USER",
+  };
 
   return (
     <div className="navbar bg-base-100 rounded-lg shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]">
@@ -55,7 +61,24 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      <div className="navbar-end">
+
+      <div className="navbar-end space-x-2">
+        {user && (
+          <div className="text-center">
+            Welcome : <span className="font-medium">{user.username}</span>
+            <div className="space-x-1 font-normal ">
+              {user.roles.map((role, index) => (
+                <span
+                  key={index}
+                  className="badge badge-primary badge-outline text-xs"
+                >
+                  {roleAbbreviations[role]}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
         {user ? (
           <UserProfile />
         ) : (

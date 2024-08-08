@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AuthService from "../services/auth.service";
 import { useAuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,13 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const { login } = useAuthContext();
+  const { login, user: loggedInUser } = useAuthContext();
+
+  useEffect(() => {
+    if (loggedInUser) {
+      navigate("/");
+    }
+  }, [loggedInUser, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -92,7 +98,7 @@ const Login = () => {
           </label>
           <div className="flex justify-between items-center">
             <label className="flex items-center">
-              <input type="checkbox" className="mr-2"/>
+              <input type="checkbox" className="mr-2" />
               Remember me
             </label>
             <a href="#" className="text-blue-500 hover:underline">

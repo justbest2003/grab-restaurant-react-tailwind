@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 const Edit = () => {
   const { id } = useParams();
@@ -9,7 +9,7 @@ const Edit = () => {
   const [resto, setRestos] = useState({
     title: "",
     type: "",
-    img: "https://cms.dmpcdn.com/food/2024/01/19/60acdbd0-b6ae-11ee-be74-a3cdac836376_webp_original.webp",
+    img: "",
   });
 
   useEffect(() => {
@@ -34,27 +34,27 @@ const Edit = () => {
       const response = await fetch("http://localhost:3000/restaurants/" + id, {
         method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(resto),
       });
       if (response.ok) {
         Swal.fire({
-          icon: 'success',
-          title: 'สำเร็จ!',
-          text: 'แก้ไขข้อมูลร้านอาหารเรียบร้อย!'
+          icon: "success",
+          title: "สำเร็จ!",
+          text: "แก้ไขข้อมูลร้านอาหารเรียบร้อย!",
         }).then(() => {
-          navigate('/'); // นำทางกลับไปยังหน้าแรก
+          navigate("/"); // นำทางกลับไปยังหน้าแรก
         });
       } else {
-        throw new Error('Failed to update restaurant');
+        throw new Error("Failed to update restaurant");
       }
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        footer: error.message
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+        footer: error.message,
       });
     }
   };
@@ -109,10 +109,7 @@ const Edit = () => {
             />
           </div>
           <div className="form-control mt-6">
-            <button
-              className="btn btn-primary"
-              type="submit"
-            >
+            <button className="btn btn-primary" type="submit">
               UPDATE
             </button>
           </div>
