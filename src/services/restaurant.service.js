@@ -7,8 +7,35 @@ const getAllRestaurant = async () => {
   return await api.get(RESTO_API);
 };
 
+//get restaurant by ID
+const getRestaurantById = async (id) => {
+  return await api.get(RESTO_API +  `/${id}`);
+};
+
+//update restaurant data
+const editRestaurant = async (id, restaurant) => {
+  return await api.put(RESTO_API + `/${id}`, restaurant);
+};
+
+//add restaurant
+const insertRestaurant = async (restaurant) => {
+  return await api.post(RESTO_API, restaurant);
+};
+
+
+//delete restaurant
+const deleteRestaurant = async (id) => {
+  return await api.delete(RESTO_API + `/${id}`);
+};
+
+
+
 const RestaurantService = {
   getAllRestaurant,
+  getRestaurantById,
+  editRestaurant,
+  deleteRestaurant,
+  insertRestaurant,
 };
 
 export default RestaurantService;

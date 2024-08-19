@@ -2,67 +2,56 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import RestaurantService from "../services/restaurant.service";
 
 const Edit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [resto, setRestos] = useState({
-    title: "",
+  const [restaurant, setRestaurant] = useState({
+    name: "",
     type: "",
-    img: "",
+    imageUrl: "",
   });
 
   useEffect(() => {
-    fetch("http://localhost:3000/restaurants/" + id)
-      .then((res) => res.json())
-      .then((response) => {
-        setRestos(response);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    RestaurantService.getRestaurantById(id).then((response) => {
+      if(response.status === 200){
+        setRestaurant(response.data)
+      }
+    })
   }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setRestos({ ...resto, [name]: value });
+    setRestaurant({ ...restaurant, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/restaurants/" + id, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(resto),
-      });
-      if (response.ok) {
-        Swal.fire({
-          icon: "success",
-          title: "สำเร็จ!",
-          text: "แก้ไขข้อมูลร้านอาหารเรียบร้อย!",
-        }).then(() => {
-          navigate("/"); // นำทางกลับไปยังหน้าแรก
-        });
-      } else {
-        throw new Error("Failed to update restaurant");
-      }
+        const response = await RestaurantService.editRestaurant(id, restaurant);
+        if (response.status === 200) {
+            Swal.fire({
+                title: "Restaurant Updated",
+                text: response.data.message,
+                icon: "success", 
+            });
+            navigate("/"); 
+        }
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong!",
-        footer: error.message,
-      });
+        Swal.fire({
+            title: "Restaurant Update Failed",
+            text: error?.response?.data?.message || error.message,
+            icon: "error",
+        });
     }
-  };
+};
+
 
   return (
     <div className="container flex flex-col items-center p-4 mx-auto space-y-6">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-        <form className="card-body" onSubmit={handleSubmit}>
+        <form className="card-body">
           <div className="form-control">
             <label className="label">
               <span className="label-text">TITLE</span>
@@ -72,9 +61,9 @@ const Edit = () => {
               placeholder="ชื่ออาหาร"
               className="input input-bordered"
               required
-              name="title"
-              id="title"
-              value={resto.title}
+              name="name"
+              id="name"
+              value={restaurant.name}
               onChange={handleChange}
             />
           </div>
@@ -89,7 +78,7 @@ const Edit = () => {
               required
               name="type"
               id="type"
-              value={resto.type}
+              value={restaurant.type}
               onChange={handleChange}
             />
           </div>
@@ -102,14 +91,14 @@ const Edit = () => {
               placeholder="รูปอาหาร"
               className="input input-bordered"
               required
-              name="img"
-              id="img"
-              value={resto.img}
+              name="imageUrl"
+              id="imageUrl"
+              value={restaurant.imageUrl}
               onChange={handleChange}
             />
           </div>
           <div className="form-control mt-6">
-            <button className="btn btn-primary" type="submit">
+            <button className="btn btn-primary" type="submit" onClick={handleSubmit}>
               UPDATE
             </button>
           </div>
